@@ -1,0 +1,73 @@
+// create database
+create database if not exists hr_information;
+
+// create table regions
+create table if not exists regions(
+region_id int not null,
+region_name varchar(25) default null,
+primary key (region_id));
+
+
+//create table countries
+create table if not exists countries(
+country_id char(2) not null,
+country_name varchar(40) default null,
+region_id int default 0,
+primary key (country_id),
+key country_region_fk (region_id));
+
+//create table locations
+create table if not exists locations(
+location_id int not null,
+street_address varchar(25) default null,
+postal_code varchar(12) default null,
+city varchar(30) default null,
+state_province varchar(12) default null,
+country_id char(2) default null,
+primary key (location_id),
+key location_country_fk (country_id));
+
+//create table jobs
+create table if not exists jobs(
+job_id varchar(10) not null,
+job_title varchar(35) default null,
+min_salary double default 0,
+max_salary double default 0,
+primary key ( job_id)); 
+
+//create table departments
+create table if not exists departments(
+department_id int not null,
+department_name varchar(30) default null,
+manager_id int default 0,
+location_id int default 0,
+primary key (department_id),
+key department_location_fk (location_id));
+
+//create table employees
+create table if not exists employees(
+employee_id int not null,
+first_name varchar(20) default null,
+last_name varchar(25) default null,
+email varchar(25) default null,
+phone_number varchar(20) default null,
+hire_date date default null,
+job_id varchar(10) default null,
+salary double default 0,
+commission_pct int default 0,
+manager_id int default 0,
+department_id int default 0,
+primary key (employee_id),
+key employee_department_fk (department_id),
+key employee_job_fk (job_id));
+
+//create table job_history
+create table if not exists job_history(
+employee_id int not null,
+start_date date not null,
+end_date date default null,
+job_id varchar(10) default null,
+department_id int default 0,
+primary key (employee_id,start_date),
+key job_history_department_fk (department_id),
+key job_history_job_fk (job_id));
